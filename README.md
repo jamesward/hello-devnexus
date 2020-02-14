@@ -1,8 +1,8 @@
-# Hello, Micronaut
+# Hello, DevNexus
 
 Run Locally:
 ```
-./gradlew -t run
+./mvnw compile exec:exec
 ```
 
 Visit: [http://localhost:8080](http://localhost:8080)
