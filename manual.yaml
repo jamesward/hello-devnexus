@@ -1,0 +1,45 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: hello-devnexus-git
+spec:
+  type: git
+  params:
+    - name: revision
+      value: master
+    - name: url
+      value: https://github.com/jamesward/hello-devnexus.git
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: hello-devnexus-image
+spec:
+  type: image
+  params:
+    - name: url
+      value: gcr.io/jw-demo/hello-devnexus
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineRun
+metadata:
+  name: hello-devnexus-pipelinerun
+spec:
+  podTemplate:
+    volumes:
+      - name: my-cache
+        persistentVolumeClaim:
+          claimName: my-volume-claim
+  pipelineRef:
+    name: hello-devnexus-pipeline
+  serviceAccountName: kn-deployer-account
+  resources:
+    - name: source
+      resourceRef:
+        name: hello-devnexus-git
+    - name: image
+      resourceRef:
+        name: hello-devnexus-image
+  params:
+    - name: service-name
+      value: hello-devnexus
