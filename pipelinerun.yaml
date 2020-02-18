@@ -1,0 +1,23 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineRun
+metadata:
+  name: test-build-deploy-pipeline-run
+spec:
+  podTemplate:
+    volumes:
+      - name: my-cache
+        persistentVolumeClaim:
+          claimName: my-volume-claim
+  pipelineRef:
+    name: test-build-deploy-pipeline
+  serviceAccountName: kn-deployer-account
+  resources:
+    - name: source
+      resourceRef:
+        name: hello-devnexus-git
+    - name: image
+      resourceRef:
+        name: hello-devnexus-image
+  params:
+    - name: service-name
+      value: hello-devnexus

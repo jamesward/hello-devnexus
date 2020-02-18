@@ -1,0 +1,17 @@
+apiVersion: tekton.dev/v1alpha1
+kind: TaskRun
+metadata:
+  name: test-run
+spec:
+  podTemplate:
+    volumes:
+      - name: my-cache
+        persistentVolumeClaim:
+          claimName: my-volume-claim
+  taskRef:
+    name: test
+  inputs:
+    resources:
+      - name: source
+        resourceRef:
+          name: hello-devnexus-git

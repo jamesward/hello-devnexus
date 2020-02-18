@@ -1,0 +1,21 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: hello-devnexus-git
+spec:
+  type: git
+  params:
+    - name: revision
+      value: master
+    - name: url
+      value: https://github.com/jamesward/hello-devnexus.git
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: hello-devnexus-image
+spec:
+  type: image
+  params:
+    - name: url
+      value: gcr.io/jw-demo/hello-devnexus
